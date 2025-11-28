@@ -5,12 +5,10 @@ const Home = () => {
     const navigate = useNavigate();
 
     const CARDS = [
-        { title: "Navigate Campus", path: "/navigate", icon: "🧭" },
         { title: "Ask Questions", path: "/ask", icon: "🤖" },
         { title: "Search Rooms & Teachers", path: "/search", icon: "🏫" },
         { title: "Campus Map", path: "/map", icon: "🗺️" },
-        { title: "Robot Live Control", path: "/control", icon: "🎮" },
-        { title: "Scan QR & Start", path: "/scan", icon: "📷" },
+        { title: "Navigate Campus", path: "/navigate", icon: "🧭" },
     ];
 
     return (
