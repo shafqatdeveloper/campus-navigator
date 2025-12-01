@@ -3,7 +3,6 @@ import { FaMicrophone, FaStop, FaPaperPlane, FaArrowLeft } from "react-icons/fa"
 import { Link } from "react-router-dom";
 
 const Ask = () => {
-
     const [question, setQuestion] = useState("");
     const [recording, setRecording] = useState(false);
     const [response, setResponse] = useState("");
@@ -12,14 +11,10 @@ const Ask = () => {
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
 
-    // ---------------------------------------------------
-    // HANDLE AUDIO RECORDING
-    // ---------------------------------------------------
+    // ---------------- RECORDING FUNCTIONS ----------------
     const startRecording = async () => {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                audio: true,
-            });
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
             audioChunksRef.current = [];
             const mediaRecorder = new MediaRecorder(stream);
@@ -45,17 +40,12 @@ const Ask = () => {
         setRecording(false);
 
         mediaRecorder.onstop = async () => {
-            const audioBlob = new Blob(audioChunksRef.current, {
-                type: "audio/webm",
-            });
-
+            const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
             sendAudioToBackend(audioBlob);
         };
     };
 
-    // ---------------------------------------------------
-    // SEND AUDIO TO BACKEND
-    // ---------------------------------------------------
+    // ---------------- SEND AUDIO TO BACKEND ----------------
     const sendAudioToBackend = async (audioBlob) => {
         setLoading(true);
         setResponse("");
@@ -79,9 +69,7 @@ const Ask = () => {
         setLoading(false);
     };
 
-    // ---------------------------------------------------
-    // SEND TYPED QUESTION
-    // ---------------------------------------------------
+    // ---------------- SEND TEXT ----------------
     const sendTextQuestion = async () => {
         if (!question.trim()) return;
 
@@ -91,9 +79,7 @@ const Ask = () => {
         try {
             const res = await fetch("http://YOUR_BACKEND_IP:5000/ask/text", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ question }),
             });
 
@@ -108,66 +94,112 @@ const Ask = () => {
     };
 
     return (
-        <div className="min-h-screen w-full bg-[#0B0F19] text-white px-6 py-10 flex flex-col gap-6">
+        <div className="min-h-screen w-full bg-[#0A0F1F] text-white px-6 py-10 relative overflow-hidden">
 
-            {/* ---------------- BACK TO HOME BUTTON ---------------- */}
-            <Link
-                to={"/"}
-                className="flex items-center gap-2 text-sm text-gray-300 hover:text-white 
-                           bg-[#1F2937] px-4 py-2 rounded-lg w-fit transition"
-            >
-                <FaArrowLeft /> Back to Home
-            </Link>
+            {/* Floating gradients to match homepage */}
+            <div className="absolute top-[-20%] left-[-10%] w-[400px] h-[400px] bg-blue-600/30 rounded-full blur-[140px] animate-pulse-slow" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] bg-purple-600/30 rounded-full blur-[140px] animate-pulse-slower" />
 
-            <h1 className="text-3xl font-bold text-center">Ask the Assistant</h1>
+            <div className="relative z-10 max-w-3xl mx-auto flex flex-col gap-6">
 
-            {/* ---------------- RESPONSE BOX ---------------- */}
-            <div className="bg-[#111827] p-5 rounded-xl border border-gray-700 min-h-[120px]">
-                {loading ? (
-                    <p className="text-blue-400 animate-pulse">Thinking...</p>
-                ) : response ? (
-                    <p>{response}</p>
-                ) : (
-                    <p className="text-gray-500">Ask something…</p>
-                )}
-            </div>
-
-            {/* ---------------- INPUT / RECORD SECTION ---------------- */}
-            <div className="flex items-center gap-3 w-full">
-                {/* Text input */}
-                <input
-                    type="text"
-                    className="flex-1 bg-[#1F2937] border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500"
-                    placeholder="Type your question..."
-                    value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
-                />
-
-                {/* Send button */}
-                <button
-                    onClick={sendTextQuestion}
-                    className="bg-blue-600 hover:bg-blue-700 p-3 rounded-xl transition"
+                {/* Back button */}
+                <Link
+                    to={"/"}
+                    className="flex items-center gap-2 text-sm text-gray-300 hover:text-white 
+                     bg-[#1C2431] px-4 py-2 rounded-xl w-fit border border-gray-700/30 
+                     transition hover:bg-[#243042]"
                 >
-                    <FaPaperPlane />
-                </button>
+                    <FaArrowLeft /> Back to Home
+                </Link>
 
-                {/* Voice Record button */}
-                {!recording ? (
+                {/* Heading */}
+                <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-1 
+                       bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-purple-400 to-pink-300
+                       animate-gradient-x">
+                    Ask the Assistant
+                </h1>
+
+                <p className="text-center text-gray-300 text-lg opacity-80">
+                    Type or speak your question — I’m here to help around the whole campus. 🎧✨
+                </p>
+
+                {/* ---------------- RESPONSE BOX ---------------- */}
+                <div className="bg-[#101726] p-6 rounded-2xl border border-slate-700/40
+                        shadow-xl shadow-black/30 min-h-[140px] transition">
+                    {loading ? (
+                        <p className="text-blue-400 animate-pulse text-lg">Thinking…</p>
+                    ) : response ? (
+                        <p className="text-gray-200 leading-relaxed">{response}</p>
+                    ) : (
+                        <p className="text-gray-500">Ask something…</p>
+                    )}
+                </div>
+
+                {/* ---------------- INPUT SECTION ---------------- */}
+                <div className="flex items-center gap-3 w-full bg-[#1C2431] border border-gray-700/50 
+                        px-4 py-3 rounded-2xl shadow-lg shadow-black/20">
+
+                    <input
+                        type="text"
+                        placeholder="Type your question..."
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
+                        className="flex-1 bg-transparent text-white placeholder-gray-500
+                       focus:outline-none text-sm"
+                    />
+
+                    {/* Send button */}
                     <button
-                        onClick={startRecording}
-                        className="bg-red-600 hover:bg-red-700 p-3 rounded-xl transition"
+                        onClick={sendTextQuestion}
+                        className="bg-blue-600 hover:bg-blue-700 px-4 py-3 rounded-xl 
+                       transition text-lg flex items-center justify-center"
                     >
-                        <FaMicrophone />
+                        <FaPaperPlane />
                     </button>
-                ) : (
-                    <button
-                        onClick={stopRecording}
-                        className="bg-gray-600 hover:bg-gray-700 p-3 rounded-xl transition"
-                    >
-                        <FaStop />
-                    </button>
-                )}
+
+                    {/* Mic / Stop button */}
+                    {!recording ? (
+                        <button
+                            onClick={startRecording}
+                            className="bg-red-600 hover:bg-red-700 px-4 py-3 rounded-xl 
+                         transition text-lg"
+                        >
+                            <FaMicrophone />
+                        </button>
+                    ) : (
+                        <button
+                            onClick={stopRecording}
+                            className="bg-gray-600 hover:bg-gray-700 px-4 py-3 rounded-xl 
+                         transition text-lg"
+                        >
+                            <FaStop />
+                        </button>
+                    )}
+                </div>
             </div>
+
+            {/* Animations */}
+            <style>{`
+        .animate-pulse-slow {
+          animation: pulse 6s ease-in-out infinite;
+        }
+        .animate-pulse-slower {
+          animation: pulse 9s ease-in-out infinite;
+        }
+        @keyframes pulse {
+          0% { opacity: .5; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.05); }
+          100% { opacity: .5; transform: scale(1); }
+        }
+        .animate-gradient-x {
+          background-size: 200% 200%;
+          animation: gradient-x 6s ease infinite;
+        }
+        @keyframes gradient-x {
+          0%, 100% { background-position: left center; }
+          50% { background-position: right center; }
+        }
+      `}</style>
         </div>
     );
 };

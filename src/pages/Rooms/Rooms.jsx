@@ -7,7 +7,6 @@ const Rooms = () => {
     const [search, setSearch] = useState("");
     const [selectedRoom, setSelectedRoom] = useState(null);
 
-    // SAMPLE DATA (Replace with backend later)
     const ROOMS = [
         { room: "C2.5", block: "Block C", type: "Lecture Room" },
         { room: "D2", block: "Block D", type: "AI / CS Lab" },
@@ -20,63 +19,123 @@ const Rooms = () => {
     );
 
     return (
-        <div className="min-h-screen bg-[#0B0F19] text-white px-6 py-10 flex flex-col gap-6">
+        <div className="min-h-screen bg-[#0A0F1F] text-white px-6 py-10 relative overflow-hidden">
 
-            {/* BACK BUTTON */}
-            <button
-                onClick={() => navigate("/")}
-                className="flex items-center gap-2 text-sm text-gray-300 hover:text-white 
-                   bg-[#1F2937] px-4 py-2 rounded-lg w-fit transition"
-            >
-                <FaArrowLeft /> Back to Home
-            </button>
+            {/* Floating gradients — same as Home + Teachers */}
+            <div className="absolute top-[-20%] left-[-12%] w-[450px] h-[450px] bg-blue-600/25 rounded-full blur-[120px] animate-pulse-slow" />
+            <div className="absolute bottom-[-20%] right-[-12%] w-[450px] h-[450px] bg-purple-600/25 rounded-full blur-[120px] animate-pulse-slower" />
 
-            <h1 className="text-3xl font-bold text-center">Rooms</h1>
+            <div className="relative z-10 max-w-4xl mx-auto flex flex-col gap-8">
 
-            {/* SEARCH */}
-            <input
-                type="text"
-                placeholder="Search room number..."
-                className="bg-[#1F2937] border border-gray-700 rounded-xl px-4 py-3 text-sm 
-                   focus:outline-none focus:border-blue-500"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-            />
+                {/* Back button */}
+                <button
+                    onClick={() => navigate("/")}
+                    className="flex items-center gap-2 text-sm text-gray-300 hover:text-white
+                               bg-[#1C2431]/70 px-4 py-2 rounded-xl border border-slate-700/40
+                               backdrop-blur-lg transition w-fit hover:bg-[#243042]"
+                >
+                    <FaArrowLeft /> Back
+                </button>
 
-            {/* ROOM LIST */}
-            <div className="bg-[#111827] border border-gray-700 rounded-xl p-4 h-[55vh] overflow-y-auto space-y-3">
-                {filtered.map((r, i) => (
-                    <div
-                        key={i}
-                        onClick={() => setSelectedRoom(r)}
-                        className="p-3 bg-[#1F2937] rounded-lg border border-gray-700 
-                       hover:border-blue-500 cursor-pointer flex items-center gap-3"
-                    >
-                        <FaDoorOpen className="text-gray-400" />
-                        <div>
-                            <p className="font-semibold">{r.room}</p>
-                            <p className="text-xs text-gray-400">{r.block}</p>
+                {/* Title */}
+                <h1 className="text-4xl md:text-5xl font-extrabold text-center tracking-tight
+                               bg-clip-text text-transparent bg-gradient-to-r 
+                               from-blue-400 via-purple-400 to-pink-400 animate-gradient-x">
+                    Rooms
+                </h1>
+
+                {/* Search */}
+                <input
+                    type="text"
+                    placeholder="Search room number..."
+                    className="w-full bg-[#1C2431]/60 border border-slate-700/50 rounded-2xl px-5 py-3 
+                               placeholder-gray-400 text-sm focus:outline-none focus:border-blue-500
+                               backdrop-blur-lg shadow-lg shadow-black/20"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+
+                {/* Rooms Grid (consistent card design!) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+                    {filtered.map((r, i) => (
+                        <div
+                            key={i}
+                            onClick={() => setSelectedRoom(r)}
+                            className="group relative cursor-pointer bg-slate-800/40 backdrop-blur-xl 
+                                       border border-slate-700/50 p-6 rounded-3xl shadow-xl flex 
+                                       items-center gap-4 transition-all duration-300 hover:-translate-y-2 
+                                       hover:shadow-blue-500/20"
+                        >
+                            {/* Glow */}
+                            <div
+                                className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-10 
+                                           transition bg-gradient-to-br from-blue-500 to-purple-500"
+                            />
+
+                            <div className="text-3xl">
+                                <FaDoorOpen className="text-gray-300 group-hover:text-white transition" />
+                            </div>
+
+                            <div className="flex flex-col">
+                                <h2 className="text-lg font-bold text-slate-100 group-hover:text-white">
+                                    Room {r.room}
+                                </h2>
+                                <p className="text-sm text-gray-400">{r.block}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
 
-                {filtered.length === 0 && (
-                    <p className="text-gray-500 text-center py-4">No rooms found…</p>
+                    {filtered.length === 0 && (
+                        <p className="text-gray-400 text-center col-span-2 py-4">
+                            No rooms found…
+                        </p>
+                    )}
+                </div>
+
+                {/* Details Panel — same style as Teachers page */}
+                {selectedRoom && (
+                    <div className="mt-6 bg-slate-800/50 border border-blue-500/20 
+                                    backdrop-blur-xl rounded-3xl p-6 shadow-2xl shadow-blue-900/20">
+                        <h2 className="text-2xl font-extrabold mb-2 bg-clip-text text-transparent
+                                        bg-gradient-to-r from-blue-300 to-purple-300">
+                            Room {selectedRoom.room}
+                        </h2>
+
+                        <p className="text-gray-300 text-sm mb-1">
+                            <span className="font-semibold">Block:</span> {selectedRoom.block}
+                        </p>
+
+                        <p className="text-gray-300 text-sm">
+                            <span className="font-semibold">Room Type:</span> {selectedRoom.type}
+                        </p>
+                    </div>
                 )}
             </div>
 
-            {/* ROOM DETAILS PANEL */}
-            {selectedRoom && (
-                <div className="bg-[#111827] border border-blue-600 rounded-xl p-4 mt-4">
-                    <h2 className="text-xl font-bold">Room {selectedRoom.room}</h2>
-                    <p className="text-gray-300 mt-1">
-                        <span className="font-semibold">Block:</span> {selectedRoom.block}
-                    </p>
-                    <p className="text-gray-300">
-                        <span className="font-semibold">Room Type:</span> {selectedRoom.type}
-                    </p>
-                </div>
-            )}
+            {/* Animations (from Home page) */}
+            <style>{`
+                .animate-pulse-slow {
+                    animation: pulse 6s ease-in-out infinite;
+                }
+                .animate-pulse-slower {
+                    animation: pulse 10s ease-in-out infinite;
+                }
+                @keyframes pulse {
+                    0% { opacity: .5; transform: scale(1); }
+                    50% { opacity: 1; transform: scale(1.05); }
+                    100% { opacity: .5; transform: scale(1); }
+                }
+
+                .animate-gradient-x {
+                    background-size: 200% 200%;
+                    animation: gradient-x 5s ease infinite;
+                }
+                @keyframes gradient-x {
+                    0%, 100% { background-position: left center; }
+                    50% { background-position: right center; }
+                }
+            `}</style>
+
         </div>
     );
 };
