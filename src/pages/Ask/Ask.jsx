@@ -171,7 +171,7 @@ const Ask = () => {
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
+      const timeout = setTimeout(() => controller.abort(), 30000);
 
       const res = await fetch(`${BACKEND_URL}/ask`, {
         method: "POST",
@@ -281,7 +281,7 @@ const Ask = () => {
         )}
 
         {/* Input */}
-        <div className="flex gap-3 bg-[#1C2431] p-3 rounded-2xl border border-gray-700/50">
+        <div className="flex flex-col gap-2 ">
           <input
             type="text"
             value={question}
@@ -289,41 +289,43 @@ const Ask = () => {
             onKeyDown={handleKeyDown}
             placeholder={recording ? "Recording..." : "Type your question..."}
             disabled={recording || loading}
-            className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none"
+            className="bg-[#1C2431]  text-white placeholder-gray-500 outline-none p-3 rounded-2xl border border-gray-700/50"
           />
 
-          {recording && (
-            <span className="text-red-400 text-sm flex items-center gap-1">
-              <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-              {Math.floor(recordingDuration / 60)}:
-              {(recordingDuration % 60).toString().padStart(2, "0")}
-            </span>
-          )}
+          <div className="flex items-center gap-2 justify-center">
+            {recording && (
+              <span className="text-red-400 text-sm flex items-center gap-1">
+                <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                {Math.floor(recordingDuration / 60)}:
+                {(recordingDuration % 60).toString().padStart(2, "0")}
+              </span>
+            )}
 
-          <button
-            onClick={handleSubmit}
-            disabled={!question.trim() || loading || recording}
-            className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-xl disabled:opacity-40"
-          >
-            <FaPaperPlane />
-          </button>
+            <button
+              onClick={handleSubmit}
+              disabled={!question.trim() || loading || recording}
+              className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-xl disabled:opacity-40"
+            >
+              <FaPaperPlane />
+            </button>
 
-          {!recording ? (
-            <button
-              onClick={startRecording}
-              disabled={loading}
-              className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-xl disabled:opacity-40"
-            >
-              <FaMicrophone />
-            </button>
-          ) : (
-            <button
-              onClick={stopRecording}
-              className="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded-xl"
-            >
-              <FaStop />
-            </button>
-          )}
+            {!recording ? (
+              <button
+                onClick={startRecording}
+                disabled={loading}
+                className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-xl disabled:opacity-40"
+              >
+                <FaMicrophone />
+              </button>
+            ) : (
+              <button
+                onClick={stopRecording}
+                className="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded-xl"
+              >
+                <FaStop />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Upload */}
