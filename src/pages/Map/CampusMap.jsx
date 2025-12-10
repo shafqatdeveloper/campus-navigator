@@ -42,50 +42,205 @@ const Block3D = ({ name, color, position, onClick, isSelected }) => {
 
 // ---------- MAIN PAGE ----------
 const CampusMap = () => {
-  const [selectedBlock, setSelectedBlock] = useState("Block A");
+  const [selectedBlock, setSelectedBlock] = useState("A Block");
 
   const BLOCK_DETAILS = {
-    "Block A": {
-      title: "Block A – Computer Science",
+    "W Block": {
+      title: "W Block - Workshop & Labs",
       description:
-        "Home of Computer Science, AI Labs, and modern lecture halls for tech students.",
+        "Technical workshops, mechanical labs, and practical training areas.",
+      color: "from-violet-500 to-purple-600",
+      floors: [
+        {
+          level: "Ground Floor",
+          rooms: ["Workshop 1", "Workshop 2", "Mechanical Lab", "Storage"],
+        },
+        {
+          level: "1st Floor",
+          rooms: ["Training Hall", "Equipment Room", "Faculty Office"],
+        },
+      ],
+    },
+    "A Block": {
+      title: "A Block - Admin",
+      description:
+        "Director Office, Admin office, Auditorium, Library, Badminton Court, etc.",
       color: "from-blue-500 to-blue-600",
       floors: [
-        { level: "Ground Floor", rooms: ["CS Lab 1", "CS Lab 2", "Reception"] },
-        { level: "1st Floor", rooms: ["Lecture Hall A1", "Lecture Hall A2"] },
-        { level: "2nd Floor", rooms: ["Faculty Offices", "Meeting Room"] },
+        {
+          level: "Ground Floor",
+          rooms: [
+            "A1",
+            "A2",
+            "Director Office",
+            "Sir Ameer Gillani Office",
+            "Ms. Nosheen Ramzan office",
+            "Dr.Fakher Mustafa office",
+            "Mr.Nasir Mehdi office",
+            "Mr.Ali Usman office",
+            "Ms.Sabeen Amin office",
+          ],
+        },
+        {
+          level: "1st Floor",
+          rooms: ["Lecture Hall A1", "Lecture Hall A2", "Auditorium", "Labs"],
+        },
+        {
+          level: "2nd Floor",
+          rooms: [
+            "Faculty Offices",
+            "Lecture Hall A1.1",
+            "Lecture Hall A1.2",
+            "Lecture Hall A1.3",
+            "Meeting Room",
+          ],
+        },
       ],
     },
-    "Block B": {
-      title: "Block B – Electrical / Electronics",
-      description:
-        "All electronics labs, circuits lab, and project rooms reside here.",
+    "B Block": {
+      title: "Block B – Management Sciences",
+      description: "Peaceful Lecture Halls, Beautiful Ground, Common Room.",
       color: "from-cyan-500 to-cyan-600",
       floors: [
-        { level: "Ground Floor", rooms: ["Electronics Lab 1", "Store"] },
-        { level: "1st Floor", rooms: ["Circuits Lab", "Power Lab"] },
-        { level: "2nd Floor", rooms: ["Project Rooms", "Faculty Offices"] },
+        {
+          level: "Ground Floor",
+          rooms: [
+            "Electronics Lab 1",
+            "Store",
+            "Faculty offices",
+            "Lecture Hall B1",
+            "Lecture Hall B2",
+            "Lecture Hall B3",
+            "Lecture Hall B4",
+            "Lecture Hall B5",
+            "Lecture Hall B6",
+            "Lecture Hall B7",
+            "Lecture Hall B8",
+            "Lecture Hall B9",
+            "Lecture Hall B10",
+            "Lecture Hall B11",
+            "Lecture Hall B12",
+            "Lecture Hall B13",
+            "Lecture Hall B14",
+          ],
+        },
       ],
     },
-    "Block C": {
-      title: "Block C – Admin & Management",
-      description:
-        "Accounts, administration, examination branch, and director's office.",
+    "C Block": {
+      title: "C Block – Computer Science",
+      description: "HOD Office, DC Office, Faculty Offices.",
       color: "from-green-500 to-green-600",
       floors: [
-        { level: "Ground Floor", rooms: ["Reception", "Accounts Office"] },
-        { level: "1st Floor", rooms: ["Examination Branch", "Record Room"] },
-        { level: "2nd Floor", rooms: ["Conference Hall", "Director Office"] },
+        {
+          level: "Ground Floor",
+          rooms: [
+            "HOD office",
+            "DC Office",
+            "Dr.Javed Ferzund office",
+            "Dr.Muhammad Farhan office",
+            "Mr.Tariq Rafiq office",
+            "Ms.Aniqa Rehman office",
+            "Dr.Mohammad Inaam-ul-Haq office",
+            "Mr.Muhammad Umer office",
+            "Ms.Mubeen Javed office",
+            "Ms.Raheela Shahzadi office",
+            "Dr.Yawar Abbas office",
+            "Dr.Shaheen Akhter office",
+            "Ms.Sana Nasir office",
+            "Me.Ali Sher Kashif office",
+            "Ms.Amna Pir office",
+            "Ms.Anam Khan office",
+            "Mr.Ghias-ul-Din Bulbun office",
+            "Ms.Aqsa Kazmi office",
+            "Ms.Shaheen Kauser office",
+            "Ms.Kanwal Fatima office",
+            "Lecture Hall C1",
+            "Lecture Hall C2",
+            "Lecture Hall C3",
+            "Lecture Hall C4",
+            "Lecture Hall C5",
+          ],
+        },
+        {
+          level: "1st Floor",
+          rooms: [
+            "Lecture Hall C1.1",
+            "Common Room C1.2",
+            "Lecture Hall C1.3",
+            "Lecture Hall C1.4",
+            "Lecture Hall C1.5",
+            "Lecture Hall C1.6",
+            "Lecture Hall C1.7",
+            "Lecture Hall C1.8",
+            "Lecture Hall C1.9",
+            "C-Lab1",
+            "C-Lab2",
+          ],
+        },
+        {
+          level: "2nd Floor",
+          rooms: [
+            "FYP-SE",
+            "Lecture Hall C2.1",
+            "Lecture Hall C2.2",
+            "Lecture Hall C2.3",
+            "Lecture Hall C2.4",
+            "Lecture Hall C2.5",
+            "C-Lab3",
+            "C-Lab4",
+          ],
+        },
       ],
     },
-    "Block D": {
-      title: "Block D – Library & Study Area",
-      description: "Main library, digital library, and peaceful study halls.",
+    "D Block": {
+      title: "D Block– Software Engineering",
+      description: "Faculty Offices, Labs, and peaceful study halls.",
       color: "from-orange-500 to-orange-600",
       floors: [
-        { level: "Ground Floor", rooms: ["Library Entry", "Issue Desk"] },
-        { level: "1st Floor", rooms: ["Reading Hall", "Reference Section"] },
-        { level: "2nd Floor", rooms: ["Digital Library", "Group Study Rooms"] },
+        {
+          level: "Ground Floor",
+          rooms: [
+            "Lab-FSN",
+            "Mr.Arslan Sarwer",
+            "Ms.Anam Khan",
+            "Mr.Muhammad Jamil",
+            "Mr.Imran Shahzad",
+            "Mr.Hafiz Muhammad Mudassar Khan",
+            "Ms.Aqsa Tehseen",
+            "Ms.Azka Riaz",
+            "Faculty offices",
+            "Lecture Hall D1",
+            "Lecture Hall D2",
+            "Lecture Hall D3",
+            "Lecture Hall D4",
+            "Lecture Hall D5",
+            "Lecture Hall D6",
+            "Lecture Hall D7",
+            "Lecture Hall D8",
+            "Lecture Hall D9",
+            "Lecture Hall D10",
+          ],
+        },
+        {
+          level: "1st Floor",
+          rooms: [
+            "Mr.Fahad Ameem office",
+            "Mr.Manzar Abbas",
+            "Mr.Muhammad Ali Shahid",
+            "Mr.Bilal Shabbie Qaisar",
+            "Mr.Sunil Ashraf",
+            "Ms.Abida Kousar",
+            "Mr.Syed Anwaar Mehdi",
+            "Ms.Sameen Fatima",
+            "Mr.Mubasher Raza",
+            "Mr.Muhammad Usman Ali",
+            "Mr.Shehzad Ahmad",
+            "Ms.Saba Latif",
+            "Mr.Javed iqbal",
+            "Mr.Muhammad Imran",
+            "Ms.Hafsa Mehreen Fatima",
+          ],
+        },
       ],
     },
   };
@@ -139,34 +294,104 @@ const CampusMap = () => {
           </mesh>
 
           <Suspense fallback={null}>
+            {/* W Block - Top Left */}
             <Block3D
-              name="Block A"
+              name="W Block"
+              color="#8b5cf6"
+              position={[-3, 0, -18]}
+              isSelected={selectedBlock === "W Block"}
+              onClick={setSelectedBlock}
+            />
+            {/* A Block - Middle Left (below W Block) */}
+            <Block3D
+              name="A Block"
               color="#2563eb"
-              position={[-6, 0, 0]}
-              isSelected={selectedBlock === "Block A"}
+              position={[-3, 0, -12]}
+              isSelected={selectedBlock === "A Block"}
               onClick={setSelectedBlock}
             />
+            {/* C Block - Top Right */}
             <Block3D
-              name="Block B"
-              color="#0ea5e9"
-              position={[0, 0, 0]}
-              isSelected={selectedBlock === "Block B"}
-              onClick={setSelectedBlock}
-            />
-            <Block3D
-              name="Block C"
+              name="C Block"
               color="#22c55e"
-              position={[6, 0, 0]}
-              isSelected={selectedBlock === "Block C"}
+              position={[8, 0, -15]}
+              isSelected={selectedBlock === "C Block"}
               onClick={setSelectedBlock}
             />
+            {/* B Block - Bottom Right */}
             <Block3D
-              name="Block D"
-              color="#f97316"
-              position={[0, 0, -6]}
-              isSelected={selectedBlock === "Block D"}
+              name="B Block"
+              color="#0ea5e9"
+              position={[6, 0, -6]}
+              isSelected={selectedBlock === "B Block"}
               onClick={setSelectedBlock}
             />
+            {/* D Block - Next to B Block (Far Right) */}
+            <Block3D
+              name="D Block"
+              color="#f97316"
+              position={[14, 0, -6]}
+              isSelected={selectedBlock === "D Block"}
+              onClick={setSelectedBlock}
+            />
+            {/* Gate - Bottom Left */}
+            <mesh position={[-14, 0, -6]}>
+              <boxGeometry args={[2, 1.5, 2]} />
+              <meshStandardMaterial color="#ef4444" />
+              <Html position={[0, 1.2, 0]} center distanceFactor={8}>
+                <div className="px-2 py-1 rounded-lg text-xs font-semibold bg-red-500 text-white shadow-lg whitespace-nowrap">
+                  🚪 Gate
+                </div>
+              </Html>
+            </mesh>
+
+            {/* Sports Ground - Opposite to A Block (mirrored on right side) */}
+            <mesh position={[-7, 0.1, 0]}>
+              <boxGeometry args={[6, 0.3, 5]} />
+              <meshStandardMaterial color="#16a34a" />
+              <Html position={[0, 0.8, 0]} center distanceFactor={8}>
+                <div className="px-2 py-1 rounded-lg text-xs font-semibold bg-green-600 text-white shadow-lg whitespace-nowrap">
+                  ⚽ Sports Ground
+                </div>
+              </Html>
+            </mesh>
+
+            {/* Mosque - Opposite to C Block */}
+            <mesh position={[10, 0, 2]}>
+              <boxGeometry args={[3, 2.5, 3]} />
+              <meshStandardMaterial color="#059669" />
+              <Html position={[0, 1.8, 0]} center distanceFactor={8}>
+                <div className="px-2 py-1 rounded-lg text-xs font-semibold bg-emerald-600 text-white shadow-lg whitespace-nowrap">
+                  🕌 Mosque
+                </div>
+              </Html>
+            </mesh>
+
+            {/* Paths/Roads - Left vertical path (connecting W Block → A Block → Sports Ground) */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-3, -0.9, -9]}>
+              <planeGeometry args={[1.5, 22]} />
+              <meshStandardMaterial color="#374151" />
+            </mesh>
+            {/* Right vertical path (connecting C Block → B Block → Mosque area) */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[8, -0.9, -7]}>
+              <planeGeometry args={[1.5, 18]} />
+              <meshStandardMaterial color="#374151" />
+            </mesh>
+            {/* Horizontal path at bottom (connecting Gate → B Block → D Block) */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.9, -6]}>
+              <planeGeometry args={[32, 1.5]} />
+              <meshStandardMaterial color="#374151" />
+            </mesh>
+            {/* Horizontal path at middle (connecting A Block area → C Block area) */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[2, -0.9, -12]}>
+              <planeGeometry args={[14, 1.5]} />
+              <meshStandardMaterial color="#374151" />
+            </mesh>
+            {/* Horizontal path near Sports Ground and Mosque */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.9, 0]}>
+              <planeGeometry args={[20, 1.5]} />
+              <meshStandardMaterial color="#374151" />
+            </mesh>
           </Suspense>
 
           <OrbitControls
