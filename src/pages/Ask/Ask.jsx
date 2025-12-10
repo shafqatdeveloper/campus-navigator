@@ -181,7 +181,12 @@ const Ask = () => {
 
       clearTimeout(timeout);
 
-      if (!res.ok) throw new Error("Server error");
+      // Check for error responses
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        console.log(errorData);
+        throw new Error(errorData.error || `Server error: ${res.status}`);
+      }
 
       if (responseFormat === "audio") {
         const blob = await res.blob();
@@ -193,10 +198,11 @@ const Ask = () => {
 
       if (!isAudio) setQuestion("");
     } catch (err) {
+      console.log("Error:", err);
       if (err.name === "AbortError") {
         setError("Request timed out. Backend may be offline.");
       } else {
-        setError("Could not connect to server. Is it running?");
+        setError(err.message || "Connection failed.");
       }
     }
 
