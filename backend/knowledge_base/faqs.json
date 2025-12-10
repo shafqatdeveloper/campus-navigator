@@ -1,0 +1,107 @@
+[
+  {
+    "id": "faq_001",
+    "category": "Faculty",
+    "question": "Who is the head of the Computer Science department?",
+    "answer": "Dr. Ahmad Khan is the Head of the Computer Science Department at University A Block.",
+    "keywords": ["head", "computer science", "department", "chair", "cs"]
+  },
+  {
+    "id": "faq_002",
+    "category": "Faculty",
+    "question": "Where is Professor Sara Ali's office?",
+    "answer": "Professor Sara Ali's office is located in Room D4 on the first floor of A Block.",
+    "keywords": ["sara ali", "professor", "office", "room", "d4"]
+  },
+  {
+    "id": "faq_003",
+    "category": "Rooms",
+    "question": "Where is the Computer Science Lab?",
+    "answer": "The CS Lab is located on the first floor of A Block, near the main staircase.",
+    "keywords": ["cs lab", "computer lab", "programming lab", "first floor"]
+  },
+  {
+    "id": "faq_004",
+    "category": "Rooms",
+    "question": "Where is classroom C2.5?",
+    "answer": "Classroom C2.5 is on the first floor, next to Room D4.",
+    "keywords": ["c2.5", "classroom", "lecture hall", "first floor"]
+  },
+  {
+    "id": "faq_005",
+    "category": "Rooms",
+    "question": "Where is the library?",
+    "answer": "The Digital Library is located on the ground floor, near the main staircase.",
+    "keywords": ["library", "digital library", "books", "reading room"]
+  },
+  {
+    "id": "faq_006",
+    "category": "Administrative",
+    "question": "Where is the exam branch office?",
+    "answer": "The Exam Branch is on the ground floor, next to the Accounts Office.",
+    "keywords": ["exam", "exams", "exam branch", "result", "grades"]
+  },
+  {
+    "id": "faq_007",
+    "category": "Administrative",
+    "question": "Where can I pay my fees?",
+    "answer": "Fee payments are handled at the Accounts Office on the ground floor of A Block.",
+    "keywords": ["fees", "payment", "accounts", "finance", "money"]
+  },
+  {
+    "id": "faq_008",
+    "category": "Schedules",
+    "question": "When does the CS lab open?",
+    "answer": "The CS Lab is open Monday to Friday from 8:00 AM to 6:00 PM.",
+    "keywords": ["lab hours", "timing", "schedule", "open", "cs lab"]
+  },
+  {
+    "id": "faq_009",
+    "category": "Schedules",
+    "question": "What are the library hours?",
+    "answer": "The Digital Library is open Monday to Saturday from 8:30 AM to 5:00 PM.",
+    "keywords": ["library hours", "timing", "schedule", "open"]
+  },
+  {
+    "id": "faq_010",
+    "category": "General",
+    "question": "How do I reach the Director's office?",
+    "answer": "The Director's Office is on the ground floor. From the entrance, go to the main corridor, turn left at Faculty Offices, then continue straight.",
+    "keywords": ["director", "office", "directions", "how to reach"]
+  },
+  {
+    "id": "faq_011",
+    "category": "Faculty",
+    "question": "Who teaches Data Structures?",
+    "answer": "Dr. Hassan Raza teaches Data Structures and Algorithms in the CS department.",
+    "keywords": ["data structures", "algorithms", "professor", "teacher", "instructor"]
+  },
+  {
+    "id": "faq_012",
+    "category": "General",
+    "question": "Where can I print documents?",
+    "answer": "There is a printing facility available in the CS Lab and the Digital Library.",
+    "keywords": ["print", "printing", "documents", "photocopy"]
+  },
+  {
+    "id": "faq_013",
+    "category": "General",
+    "question": "Is there WiFi in A Block?",
+    "answer": "Yes, eduroam WiFi is available throughout A Block. Contact IT support for credentials.",
+    "keywords": ["wifi", "internet", "wireless", "connection"]
+  },
+  {
+    "id": "faq_014",
+    "category": "Schedules",
+    "question": "When is the registration deadline?",
+    "answer": "Course registration typically occurs in the first two weeks of each semester. Check the academic calendar or visit the Exam Branch for exact dates.",
+    "keywords": ["registration", "deadline", "enroll", "courses"]
+  },
+  {
+    "id": "faq_015",
+    "category": "General",
+    "question": "How many floors does A Block have?",
+    "answer": "A Block has two floors: Ground Floor and First Floor.",
+    "keywords": ["floors", "levels", "building", "structure"]
+  }
+]

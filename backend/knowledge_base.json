@@ -1,0 +1,342 @@
+[
+  {
+    "question": "What is your name?",
+    "answer": "I am the Campus Navigator robot assistant for COMSATS University Sahiwal."
+  },
+  {
+    "question": "What is COMSATS?",
+    "answer": "COMSATS University Islamabad, Sahiwal Campus is a public university established to provide quality education in engineering, computer science, and management sciences."
+  },
+  {
+    "question": "When was COMSATS Sahiwal established?",
+    "answer": "COMSATS Sahiwal campus was established in 2009."
+  },
+  {
+    "question": "Where is COMSATS Sahiwal located?",
+    "answer": "COMSATS Sahiwal is located on Chak 10/11-P, Off Bosan Road, Sahiwal, Punjab, Pakistan."
+  },
+  {
+    "question": "What programs does COMSATS Sahiwal offer?",
+    "answer": "COMSATS Sahiwal offers undergraduate and graduate programs in Computer Science, Software Engineering, Electrical Engineering, Management Sciences, and Mathematics."
+  },
+  {
+    "question": "Where is the main entrance?",
+    "answer": "The main entrance is at the front of the campus on Bosan Road. All visitors must register at the security gate."
+  },
+  {
+    "question": "Where is the computer lab?",
+    "answer": "The computer labs are located in the CS Department on the first and second floors of the main academic block."
+  },
+  {
+    "question": "Where is the library?",
+    "answer": "The library is located on the ground floor of the main academic building, near the central lobby."
+  },
+  {
+    "question": "What are the library timings?",
+    "answer": "The library is open from 8:30 AM to 4:30 PM on weekdays and closed on weekends and public holidays."
+  },
+  {
+    "question": "Where is the cafeteria?",
+    "answer": "The cafeteria is located on the ground floor, adjacent to the sports ground."
+  },
+  {
+    "question": "What time does the cafeteria open?",
+    "answer": "The cafeteria opens at 8 AM on weekdays and closes at 5 PM."
+  },
+  {
+    "question": "Where is the admin office?",
+    "answer": "The administration office is located on the first floor of the main block, near the staircase."
+  },
+  {
+    "question": "Where is the registrar office?",
+    "answer": "The registrar office is on the first floor, next to the admin office in the main academic block."
+  },
+  {
+    "question": "Where is the exam department?",
+    "answer": "The examination department is located on the first floor, in the administrative wing."
+  },
+  {
+    "question": "Where can I find the CS department office?",
+    "answer": "The Computer Science department office is on the second floor of the main academic block."
+  },
+  {
+    "question": "Where is the electrical engineering department?",
+    "answer": "The Electrical Engineering department is located on the third floor of the main academic building."
+  },
+  {
+    "question": "Where is the management sciences department?",
+    "answer": "The Management Sciences department office is on the second floor, near the faculty offices."
+  },
+  {
+    "question": "Where are the faculty offices?",
+    "answer": "Faculty offices are distributed across the second and third floors based on departments."
+  },
+  {
+    "question": "Where is the auditorium?",
+    "answer": "The main auditorium is located in a separate building adjacent to the academic block."
+  },
+  {
+    "question": "Where are the seminar halls?",
+    "answer": "Seminar halls are on the ground and first floors, near the main lobby."
+  },
+  {
+    "question": "Where is the sports ground?",
+    "answer": "The sports ground is located behind the academic block, accessible through the cafeteria area."
+  },
+  {
+    "question": "Where is the gym?",
+    "answer": "The gym facility is located near the sports ground, behind the main building."
+  },
+  {
+    "question": "Where is the prayer room?",
+    "answer": "The prayer room is on the ground floor, near the main entrance lobby."
+  },
+  {
+    "question": "Where is the parking area?",
+    "answer": "The main parking area is in front of the academic block. Separate parking for faculty is on the right side."
+  },
+  {
+    "question": "Where is the photocopy shop?",
+    "answer": "The photocopy and printing shop is near the cafeteria on the ground floor."
+  },
+  {
+    "question": "Where is the medical room?",
+    "answer": "The medical room is on the ground floor, near the admin office."
+  },
+  {
+    "question": "What is the contact number for COMSATS Sahiwal?",
+    "answer": "You can contact COMSATS Sahiwal at +92-40-9230081 or visit the official website."
+  },
+  {
+    "question": "What are the class timings?",
+    "answer": "Regular classes are from 8:30 AM to 4:30 PM. Evening classes run from 5:00 PM to 9:00 PM."
+  },
+  {
+    "question": "When do admissions open?",
+    "answer": "Admissions typically open twice a year - in August for Fall semester and in January for Spring semester."
+  },
+  {
+    "question": "How do I apply for admission?",
+    "answer": "You can apply online through the COMSATS admission portal or visit the admissions office on the first floor."
+  },
+  {
+    "question": "Where is room A-101?",
+    "answer": "Room A-101 is on the first floor of Block A, the main academic building, at the left end of the corridor."
+  },
+  {
+    "question": "Where is Block B?",
+    "answer": "Block B is the second building behind the main academic block, connected via a covered walkway."
+  },
+  {
+    "question": "Where are the washrooms?",
+    "answer": "Washrooms are located at both ends of each floor in the main academic block."
+  },
+  {
+    "question": "Where is the notice board?",
+    "answer": "Main notice boards are located near the entrance lobby and outside department offices."
+  },
+  {
+    "question": "Where can I get student ID card?",
+    "answer": "Student ID cards are issued from the IT department office on the second floor."
+  },
+  {
+    "question": "Where is the IT department?",
+    "answer": "The IT services office is on the second floor, near the CS department."
+  },
+  {
+    "question": "Where can I pay fees?",
+    "answer": "Fee payment counters are in the accounts office on the first floor, next to the admin office."
+  },
+  {
+    "question": "Where is the accounts office?",
+    "answer": "The accounts office is on the first floor of the administrative wing, near the staircase."
+  },
+  {
+    "question": "Where is the scholarship office?",
+    "answer": "The financial aid and scholarship office is on the first floor, in the admin section."
+  },
+  {
+    "question": "Navigate to the library",
+    "answer": "Navigating to the library on the ground floor. Please follow me."
+  },
+  {
+    "question": "Navigate to the cafeteria",
+    "answer": "Navigating to the cafeteria. It's on the ground floor near the sports ground."
+  },
+  {
+    "question": "Navigate to the admin office",
+    "answer": "Navigating to the administration office on the first floor. Follow me."
+  },
+  {
+    "question": "Navigate to the main entrance",
+    "answer": "Navigating to the main entrance. Please follow me."
+  },
+  {
+    "question": "Navigate to CS department",
+    "answer": "Navigating to the Computer Science department on the second floor."
+  },
+  {
+    "question": "Navigate to the exam department",
+    "answer": "Navigating to the examination department on the first floor."
+  },
+  {
+    "question": "Is WiFi available on campus?",
+    "answer": "Yes, WiFi is available throughout the campus. Students can connect using their student credentials."
+  },
+  {
+    "question": "What is the WiFi password?",
+    "answer": "WiFi credentials are provided by the IT department. Please visit the IT office on the second floor."
+  },
+  {
+    "question": "Are there any bus services?",
+    "answer": "Yes, COMSATS provides university bus service from various routes in Sahiwal city. Contact transport office for details."
+  },
+  {
+    "question": "Where is the transport office?",
+    "answer": "The transport office is near the main gate on the ground floor."
+  },
+  {
+    "question": "What is the dress code?",
+    "answer": "Students must wear formal dress. Jeans and t-shirts are not allowed. ID cards must be visible."
+  },
+  {
+    "question": "Can visitors enter the campus?",
+    "answer": "Visitors must register at the security gate and obtain a visitor pass before entering."
+  },
+  {
+    "question": "Where can I find the semester schedule?",
+    "answer": "Semester schedules are available on notice boards and the COMSATS student portal."
+  },
+  {
+    "question": "How do I access the student portal?",
+    "answer": "The student portal can be accessed at ciit.net.pk using your student credentials."
+  },
+  {
+    "question": "Where can I submit assignments?",
+    "answer": "Assignments are submitted either online through CMS or physically to your instructor's office."
+  },
+  {
+    "question": "What is CMS?",
+    "answer": "CMS is the Course Management System used for online assignments, lectures, and course materials."
+  },
+  {
+    "question": "Are there any clubs or societies?",
+    "answer": "Yes, COMSATS Sahiwal has various clubs including drama, sports, photography, and technical societies."
+  },
+  {
+    "question": "Where can I report a complaint?",
+    "answer": "Complaints can be submitted to the student affairs office on the first floor or through the online portal."
+  },
+  {
+    "question": "Is there hostel facility?",
+    "answer": "Currently, COMSATS Sahiwal does not have on-campus hostel facilities. Students find accommodation in the city."
+  },
+  {
+    "question": "What are the semester fee amounts?",
+    "answer": "Fee structure varies by program. Please check the fee schedule at the accounts office or website."
+  },
+  {
+    "question": "Who is the Head of CS Department?",
+    "answer": "The Head of Computer Science Department is Dr. Muhammad Asif. His office is on the second floor."
+  },
+  {
+    "question": "Who teaches Data Structures?",
+    "answer": "Data Structures is taught by various faculty members including Dr. Ali Raza and Ms. Ayesha Khan in the CS department."
+  },
+  {
+    "question": "Who teaches Database Systems?",
+    "answer": "Database Systems is taught by Dr. Hassan Ahmed and Mr. Usman Khalid."
+  },
+  {
+    "question": "Who is Dr. Muhammad Asif?",
+    "answer": "Dr. Muhammad Asif is the Head of Computer Science Department and teaches Advanced Algorithms and Machine Learning courses."
+  },
+  {
+    "question": "Where is Dr. Ali Raza's office?",
+    "answer": "Dr. Ali Raza's office is on the second floor in the CS department faculty wing, room CS-205."
+  },
+  {
+    "question": "What are faculty office hours?",
+    "answer": "Faculty office hours are typically posted on their office doors and on the department notice board. Most faculty are available from 2 PM to 4 PM."
+  },
+  {
+    "question": "Who teaches Programming Fundamentals?",
+    "answer": "Programming Fundamentals is taught by Ms. Fatima Noor and Mr. Ahmed Hassan."
+  },
+  {
+    "question": "Who is the coordinator for FYP?",
+    "answer": "The Final Year Project coordinator is Dr. Hassan Ahmed. His office is on the second floor, room CS-207."
+  },
+  {
+    "question": "Who teaches Object Oriented Programming?",
+    "answer": "Object Oriented Programming is taught by Mr. Bilal Ahmad and Ms. Sana Malik."
+  },
+  {
+    "question": "Who is Dr. Hassan Ahmed?",
+    "answer": "Dr. Hassan Ahmed is a senior faculty member teaching Database Systems and Software Engineering. He is also the FYP coordinator."
+  },
+  {
+    "question": "Who teaches Software Engineering?",
+    "answer": "Software Engineering is taught by Dr. Hassan Ahmed and Mr. Imran Ali."
+  },
+  {
+    "question": "Who is the Head of Electrical Engineering Department?",
+    "answer": "The Head of Electrical Engineering Department is Dr. Shahid Mahmood. His office is on the third floor."
+  },
+  {
+    "question": "Who teaches Operating Systems?",
+    "answer": "Operating Systems is taught by Dr. Ali Raza and Mr. Kamran Saleem."
+  },
+  {
+    "question": "Who is Ms. Ayesha Khan?",
+    "answer": "Ms. Ayesha Khan is a CS faculty member specializing in Data Structures and Algorithms. Her office is on the second floor."
+  },
+  {
+    "question": "Who teaches Computer Networks?",
+    "answer": "Computer Networks is taught by Mr. Usman Khalid and Ms. Hira Tariq."
+  },
+  {
+    "question": "Who is the Dean of Faculty?",
+    "answer": "The Dean of Faculty is Dr. Rizwan Qureshi. His office is on the first floor in the administrative wing."
+  },
+  {
+    "question": "How can I contact a faculty member?",
+    "answer": "Faculty contact information is available on the department website or you can visit their offices during office hours."
+  },
+  {
+    "question": "Who teaches Artificial Intelligence?",
+    "answer": "Artificial Intelligence is taught by Dr. Muhammad Asif and Dr. Ali Raza."
+  },
+  {
+    "question": "Who is the lab supervisor?",
+    "answer": "The computer lab supervisor is Mr. Shahzad Malik. The lab office is on the first floor."
+  },
+  {
+    "question": "Who teaches Web Development?",
+    "answer": "Web Development and related courses are taught by Mr. Ahmed Hassan and Ms. Sana Malik."
+  },
+  {
+    "question": "Who is Mr. Bilal Ahmad?",
+    "answer": "Mr. Bilal Ahmad is a faculty member in the CS department teaching OOP and Programming courses. His office is room CS-204."
+  },
+  {
+    "question": "Who can I contact for thesis supervision?",
+    "answer": "For thesis supervision, contact the FYP coordinator Dr. Hassan Ahmed or consult with your department head."
+  },
+  {
+    "question": "Who teaches Digital Logic Design?",
+    "answer": "Digital Logic Design is taught by faculty from the Electrical Engineering department including Dr. Shahid Mahmood."
+  },
+  {
+    "question": "Who is the campus director?",
+    "answer": "The Campus Director is Dr. Ahmad Raza Bilal. His office is on the first floor in the administrative section."
+  },
+  {
+    "question": "How many faculty members are in CS department?",
+    "answer": "The CS department has approximately 15-20 full-time faculty members with diverse specializations."
+  },
+  {
+    "question": "Who teaches Mathematics courses?",
+    "answer": "Mathematics courses are taught by the Mathematics department faculty including Dr. Farhan Ali and Ms. Nadia Ahmad."
+  }
+]

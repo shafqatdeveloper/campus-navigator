@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Dr. Ahmad Khan",
+    "title": "Head of Department",
+    "department": "Computer Science",
+    "office": "Director Office",
+    "email": "ahmad.khan@university.edu.pk",
+    "specialization": "Artificial Intelligence, Machine Learning"
+  },
+  {
+    "name": "Professor Sara Ali",
+    "title": "Associate Professor",
+    "department": "Computer Science",
+    "office": "D4",
+    "email": "sara.ali@university.edu.pk",
+    "specialization": "Data Science, Big Data Analytics"
+  },
+  {
+    "name": "Dr. Hassan Raza",
+    "title": "Assistant Professor",
+    "department": "Computer Science",
+    "office": "Faculty Offices",
+    "email": "hassan.raza@university.edu.pk",
+    "specialization": "Algorithms, Data Structures"
+  },
+  {
+    "name": "Dr. Fatima Noor",
+    "title": "Associate Professor",
+    "department": "Computer Science",
+    "office": "Faculty Offices",
+    "email": "fatima.noor@university.edu.pk",
+    "specialization": "Software Engineering, Web Development"
+  },
+  {
+    "name": "Mr. Bilal Ahmed",
+    "title": "Lecturer",
+    "department": "Computer Science",
+    "office": "CS Lab",
+    "email": "bilal.ahmed@university.edu.pk",
+    "specialization": "Database Systems, Cloud Computing"
+  }
+]

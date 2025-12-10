@@ -1,143 +1,276 @@
 import React, { useState } from "react";
-import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import {
+  FaArrowLeft,
+  FaDoorOpen,
+  FaSearch,
+  FaMapMarkerAlt,
+  FaBuilding,
+  FaTimes,
+  FaCheckCircle,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Rooms = () => {
-    const navigate = useNavigate();
-    const [search, setSearch] = useState("");
-    const [selectedRoom, setSelectedRoom] = useState(null);
+  const [search, setSearch] = useState("");
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
-    const ROOMS = [
-        { room: "C2.5", block: "Block C", type: "Lecture Room" },
-        { room: "D2", block: "Block D", type: "AI / CS Lab" },
-        { room: "A1", block: "Block A", type: "Classroom" },
-        { room: "B1", block: "Block B", type: "Electronics Lab" },
-    ];
+  const ROOMS = [
+    {
+      room: "C2.5",
+      block: "Block C",
+      type: "Lecture Room",
+      floor: "2nd Floor",
+      capacity: 60,
+    },
+    {
+      room: "D2",
+      block: "Block D",
+      type: "AI / CS Lab",
+      floor: "Ground Floor",
+      capacity: 40,
+    },
+    {
+      room: "A1",
+      block: "Block A",
+      type: "Classroom",
+      floor: "1st Floor",
+      capacity: 50,
+    },
+    {
+      room: "B1",
+      block: "Block B",
+      type: "Electronics Lab",
+      floor: "Ground Floor",
+      capacity: 35,
+    },
+    {
+      room: "A2",
+      block: "Block A",
+      type: "Classroom",
+      floor: "2nd Floor",
+      capacity: 45,
+    },
+    {
+      room: "D4",
+      block: "Block D",
+      type: "Study Hall",
+      floor: "1st Floor",
+      capacity: 80,
+    },
+  ];
 
-    const filtered = ROOMS.filter((r) =>
-        r.room.toLowerCase().includes(search.toLowerCase())
-    );
+  const filtered = ROOMS.filter(
+    (r) =>
+      r.room.toLowerCase().includes(search.toLowerCase()) ||
+      r.type.toLowerCase().includes(search.toLowerCase()) ||
+      r.block.toLowerCase().includes(search.toLowerCase())
+  );
 
-    return (
-        <div className="min-h-screen bg-[#0A0F1F] text-white px-6 py-10 relative overflow-hidden">
+  const getRoomColor = (type) => {
+    if (type.includes("Lab")) return "from-emerald-500 to-green-600";
+    if (type.includes("Lecture")) return "from-blue-500 to-cyan-600";
+    if (type.includes("Study")) return "from-amber-500 to-orange-600";
+    return "from-purple-500 to-pink-600";
+  };
 
-            {/* Floating gradients — same as Home + Teachers */}
-            <div className="absolute top-[-20%] left-[-12%] w-[450px] h-[450px] bg-blue-600/25 rounded-full blur-[120px] animate-pulse-slow" />
-            <div className="absolute bottom-[-20%] right-[-12%] w-[450px] h-[450px] bg-purple-600/25 rounded-full blur-[120px] animate-pulse-slower" />
+  return (
+    <div className="min-h-screen bg-[#0A0F1F] text-white px-4 md:px-6 py-8 relative overflow-hidden">
+      {/* Enhanced Background Effects */}
+      <div className="absolute top-[-20%] left-[-10%] w-[450px] h-[450px] bg-blue-600/30 rounded-full blur-[140px] animate-pulse" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[450px] h-[450px] bg-purple-600/30 rounded-full blur-[140px] animate-pulse" />
+      <div className="absolute top-[40%] left-[60%] w-[200px] h-[200px] bg-amber-500/15 rounded-full blur-[100px]" />
 
-            <div className="relative z-10 max-w-4xl mx-auto flex flex-col gap-8">
+      <div className="relative z-10 max-w-4xl mx-auto flex flex-col gap-6">
+        {/* Back Button */}
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-sm text-gray-300 hover:text-white 
+                     bg-[#1C2431]/80 backdrop-blur-sm px-4 py-2.5 rounded-xl w-fit border border-gray-700/30
+                     transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/10"
+        >
+          <FaArrowLeft /> Back to Home
+        </Link>
 
-                {/* Back button */}
-                <button
-                    onClick={() => navigate("/")}
-                    className="flex items-center gap-2 text-sm text-gray-300 hover:text-white
-                               bg-[#1C2431]/70 px-4 py-2 rounded-xl border border-slate-700/40
-                               backdrop-blur-lg transition w-fit hover:bg-[#243042]"
-                >
-                    <FaArrowLeft /> Back
-                </button>
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <h1 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-purple-400 to-pink-300 animate-gradient">
+            Rooms Directory
+          </h1>
+          <p className="text-gray-400 text-base">
+            Find classrooms, labs, and study areas 🚪
+          </p>
+        </div>
 
-                {/* Title */}
-                <h1 className="text-4xl md:text-5xl font-extrabold text-center tracking-tight
-                               bg-clip-text text-transparent bg-gradient-to-r 
-                               from-blue-400 via-purple-400 to-pink-400 animate-gradient-x">
-                    Rooms
-                </h1>
+        {/* Search Box */}
+        <div
+          className="flex items-center gap-3 w-full bg-[#1C2431]/90 backdrop-blur-sm border border-gray-700/50 
+                        px-4 py-3 rounded-2xl shadow-lg transition-all duration-300 hover:border-purple-500/50"
+        >
+          <FaSearch className="text-gray-500" />
+          <input
+            type="text"
+            placeholder="Search by room number, type, or block..."
+            className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none text-base"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              className="text-gray-500 hover:text-white transition-colors"
+            >
+              <FaTimes />
+            </button>
+          )}
+        </div>
 
-                {/* Search */}
-                <input
-                    type="text"
-                    placeholder="Search room number..."
-                    className="w-full bg-[#1C2431]/60 border border-slate-700/50 rounded-2xl px-5 py-3 
-                               placeholder-gray-400 text-sm focus:outline-none focus:border-blue-500
-                               backdrop-blur-lg shadow-lg shadow-black/20"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
+        {/* Results Count */}
+        <p className="text-gray-500 text-sm">
+          Showing {filtered.length} of {ROOMS.length} rooms
+        </p>
 
-                {/* Rooms Grid (consistent card design!) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-                    {filtered.map((r, i) => (
-                        <div
-                            key={i}
-                            onClick={() => setSelectedRoom(r)}
-                            className="group relative cursor-pointer bg-slate-800/40 backdrop-blur-xl 
-                                       border border-slate-700/50 p-6 rounded-3xl shadow-xl flex 
-                                       items-center gap-4 transition-all duration-300 hover:-translate-y-2 
-                                       hover:shadow-blue-500/20"
-                        >
-                            {/* Glow */}
-                            <div
-                                className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-10 
-                                           transition bg-gradient-to-br from-blue-500 to-purple-500"
-                            />
+        {/* Rooms Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map((r, i) => (
+            <div
+              key={i}
+              onClick={() => setSelectedRoom(r)}
+              className={`group relative cursor-pointer bg-[#101726]/80 backdrop-blur-xl 
+                         border p-5 rounded-2xl shadow-lg 
+                         transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
+                         ${
+                           selectedRoom?.room === r.room
+                             ? "border-purple-500/70 shadow-purple-500/20"
+                             : "border-slate-700/50 hover:border-purple-500/50"
+                         }`}
+            >
+              {/* Glow */}
+              <div
+                className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 
+                              transition bg-gradient-to-br ${getRoomColor(
+                                r.type
+                              )}`}
+              />
 
-                            <div className="text-3xl">
-                                <FaDoorOpen className="text-gray-300 group-hover:text-white transition" />
-                            </div>
+              {/* Icon */}
+              <div
+                className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getRoomColor(
+                  r.type
+                )} 
+                              flex items-center justify-center shadow-lg mb-3 transform 
+                              transition-transform duration-300 group-hover:scale-105`}
+              >
+                <FaDoorOpen className="text-white text-lg" />
+              </div>
 
-                            <div className="flex flex-col">
-                                <h2 className="text-lg font-bold text-slate-100 group-hover:text-white">
-                                    Room {r.room}
-                                </h2>
-                                <p className="text-sm text-gray-400">{r.block}</p>
-                            </div>
-                        </div>
-                    ))}
+              {/* Info */}
+              <h2 className="text-xl font-bold text-white mb-1">
+                Room {r.room}
+              </h2>
+              <p className="text-sm text-gray-400 mb-2">{r.type}</p>
 
-                    {filtered.length === 0 && (
-                        <p className="text-gray-400 text-center col-span-2 py-4">
-                            No rooms found…
-                        </p>
-                    )}
-                </div>
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <FaBuilding className="text-blue-400" />
+                <span>{r.block}</span>
+                <span className="text-gray-700">•</span>
+                <span>{r.floor}</span>
+              </div>
 
-                {/* Details Panel — same style as Teachers page */}
-                {selectedRoom && (
-                    <div className="mt-6 bg-slate-800/50 border border-blue-500/20 
-                                    backdrop-blur-xl rounded-3xl p-6 shadow-2xl shadow-blue-900/20">
-                        <h2 className="text-2xl font-extrabold mb-2 bg-clip-text text-transparent
-                                        bg-gradient-to-r from-blue-300 to-purple-300">
-                            Room {selectedRoom.room}
-                        </h2>
+              {/* Selected Indicator */}
+              {selectedRoom?.room === r.room && (
+                <FaCheckCircle className="absolute top-4 right-4 text-purple-400" />
+              )}
+            </div>
+          ))}
 
-                        <p className="text-gray-300 text-sm mb-1">
-                            <span className="font-semibold">Block:</span> {selectedRoom.block}
-                        </p>
+          {filtered.length === 0 && (
+            <div className="col-span-3 text-center py-10">
+              <div className="text-4xl mb-3 opacity-50">🔍</div>
+              <p className="text-gray-500">
+                No rooms found matching "{search}"
+              </p>
+            </div>
+          )}
+        </div>
 
-                        <p className="text-gray-300 text-sm">
-                            <span className="font-semibold">Room Type:</span> {selectedRoom.type}
-                        </p>
-                    </div>
-                )}
+        {/* Details Panel */}
+        {selectedRoom && (
+          <div
+            className="bg-[#101726]/80 backdrop-blur-xl border border-purple-500/30 
+                          rounded-2xl p-6 shadow-xl relative overflow-hidden"
+          >
+            {/* Decorative Corner */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-500/10 to-transparent rounded-bl-full" />
+
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <p className="text-xs text-purple-300 uppercase tracking-widest mb-1">
+                  Selected Room
+                </p>
+                <h2 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-purple-300">
+                  Room {selectedRoom.room}
+                </h2>
+              </div>
+              <button
+                onClick={() => setSelectedRoom(null)}
+                className="text-gray-500 hover:text-white transition-colors"
+              >
+                <FaTimes />
+              </button>
             </div>
 
-            {/* Animations (from Home page) */}
-            <style>{`
-                .animate-pulse-slow {
-                    animation: pulse 6s ease-in-out infinite;
-                }
-                .animate-pulse-slower {
-                    animation: pulse 10s ease-in-out infinite;
-                }
-                @keyframes pulse {
-                    0% { opacity: .5; transform: scale(1); }
-                    50% { opacity: 1; transform: scale(1.05); }
-                    100% { opacity: .5; transform: scale(1); }
-                }
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+              <div className="bg-[#1C2431]/50 rounded-xl p-3">
+                <p className="text-gray-500 text-xs mb-1">Type</p>
+                <p className="text-white font-medium">{selectedRoom.type}</p>
+              </div>
+              <div className="bg-[#1C2431]/50 rounded-xl p-3">
+                <p className="text-gray-500 text-xs mb-1">Block</p>
+                <p className="text-white font-medium">{selectedRoom.block}</p>
+              </div>
+              <div className="bg-[#1C2431]/50 rounded-xl p-3">
+                <p className="text-gray-500 text-xs mb-1">Floor</p>
+                <p className="text-white font-medium">{selectedRoom.floor}</p>
+              </div>
+              <div className="bg-[#1C2431]/50 rounded-xl p-3">
+                <p className="text-gray-500 text-xs mb-1">Capacity</p>
+                <p className="text-white font-medium">
+                  {selectedRoom.capacity} seats
+                </p>
+              </div>
+            </div>
 
-                .animate-gradient-x {
-                    background-size: 200% 200%;
-                    animation: gradient-x 5s ease infinite;
-                }
-                @keyframes gradient-x {
-                    0%, 100% { background-position: left center; }
-                    50% { background-position: right center; }
-                }
-            `}</style>
+            <button
+              className="mt-4 w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 
+                               hover:from-blue-500 hover:to-purple-500 rounded-xl text-sm font-semibold 
+                               transition-all duration-300 shadow-lg shadow-blue-500/20 
+                               hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              📍 Navigate to Room {selectedRoom.room}
+            </button>
+          </div>
+        )}
+      </div>
 
-        </div>
-    );
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes gradient {
+          0%,
+          100% {
+            background-size: 200% 200%;
+            background-position: left center;
+          }
+          50% {
+            background-size: 200% 200%;
+            background-position: right center;
+          }
+        }
+        .animate-gradient {
+          animation: gradient 3s ease infinite;
+        }
+      `}</style>
+    </div>
+  );
 };
 
 export default Rooms;
