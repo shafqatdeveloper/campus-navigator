@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { FiMail, FiLock, FiLogIn, FiAlertCircle } from "react-icons/fi";
+import {
+  FiMail,
+  FiLock,
+  FiLogIn,
+  FiAlertCircle,
+  FiEye,
+  FiEyeOff,
+} from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
 import "./Admin.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -76,13 +84,35 @@ const Login = () => {
           <div className="login-input-group">
             <FiLock className="input-icon" />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
               autoComplete="current-password"
+              style={{ paddingRight: "3rem" }}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "transparent",
+                border: "none",
+                color: "#888",
+                cursor: "pointer",
+                padding: "4px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              tabIndex={-1}
+            >
+              {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+            </button>
           </div>
 
           <button type="submit" className="login-btn" disabled={loading}>
