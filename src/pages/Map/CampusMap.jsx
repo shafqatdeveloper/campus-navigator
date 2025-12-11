@@ -1,8 +1,10 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Html } from "@react-three/drei";
 import { FaArrowLeft, FaExpandAlt, FaInfoCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { db } from "../../utils/firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 
 // ---------- 3D BLOCK COMPONENT ----------
 const Block3D = ({ name, color, position, onClick, isSelected }) => {
@@ -43,6 +45,57 @@ const Block3D = ({ name, color, position, onClick, isSelected }) => {
 // ---------- MAIN PAGE ----------
 const CampusMap = () => {
   const [selectedBlock, setSelectedBlock] = useState("A Block");
+  const [firebaseRooms, setFirebaseRooms] = useState([]);
+
+  // Fetch rooms from Firebase
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "rooms"),
+      (snapshot) => {
+        const roomsData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setFirebaseRooms(roomsData);
+      },
+      (error) => {
+        console.error("Error fetching rooms:", error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  // Helper to get rooms for a block organized by floor
+  const getRoomsForBlock = (blockLetter) => {
+    const blockRooms = firebaseRooms.filter((r) => r.block === blockLetter);
+    const floorMap = {};
+
+    blockRooms.forEach((room) => {
+      const floorKey = room.floor ? `${room.floor} Floor` : "Unknown Floor";
+      if (!floorMap[floorKey]) {
+        floorMap[floorKey] = [];
+      }
+      // Format room with amenities info
+      let roomInfo = room.name;
+      if (room.type && room.type !== "Classroom") {
+        roomInfo += ` (${room.type})`;
+      }
+      floorMap[floorKey].push({
+        name: roomInfo,
+        capacity: room.capacity,
+        hasLCD: room.hasLCD,
+        hasProjector: room.hasProjector,
+        hasAC: room.hasAC,
+      });
+    });
+
+    return Object.entries(floorMap).map(([level, rooms]) => ({
+      level,
+      rooms: rooms.map((r) => r.name),
+      roomDetails: rooms,
+    }));
+  };
 
   const BLOCK_DETAILS = {
     "W Block": {
@@ -50,6 +103,7 @@ const CampusMap = () => {
       description:
         "Technical workshops, mechanical labs, and practical training areas.",
       color: "from-violet-500 to-purple-600",
+      image: "/W_Block.jpg",
       floors: [
         {
           level: "Ground Floor",
@@ -66,6 +120,7 @@ const CampusMap = () => {
       description:
         "Director Office, Admin office, Auditorium, Library, Badminton Court, etc.",
       color: "from-blue-500 to-blue-600",
+      image: "/A_Block.jpg",
       floors: [
         {
           level: "Ground Floor",
@@ -101,6 +156,7 @@ const CampusMap = () => {
       title: "Block B – Management Sciences",
       description: "Peaceful Lecture Halls, Beautiful Ground, Common Room.",
       color: "from-cyan-500 to-cyan-600",
+      image: "/B_Block.jpg",
       floors: [
         {
           level: "Ground Floor",
@@ -130,6 +186,7 @@ const CampusMap = () => {
       title: "C Block – Computer Science",
       description: "HOD Office, DC Office, Faculty Offices.",
       color: "from-green-500 to-green-600",
+      image: "/C_Block.jpg",
       floors: [
         {
           level: "Ground Floor",
@@ -196,6 +253,7 @@ const CampusMap = () => {
       title: "D Block– Software Engineering",
       description: "Faculty Offices, Labs, and peaceful study halls.",
       color: "from-orange-500 to-orange-600",
+      image: "/D_Block.jpg",
       floors: [
         {
           level: "Ground Floor",
@@ -243,9 +301,75 @@ const CampusMap = () => {
         },
       ],
     },
+    "Sports Ground": {
+      title: "Sports Ground",
+      description:
+        "Football field, cricket pitch, and outdoor sports facilities for students.",
+      color: "from-emerald-500 to-green-600",
+      image: "/Sports_Ground.jpg",
+      floors: [
+        {
+          level: "Facilities",
+          rooms: [
+            "Football Field",
+            "Cricket Pitch",
+            "Running Track",
+            "Spectator Area",
+          ],
+        },
+      ],
+    },
+    Mosque: {
+      title: "Campus Mosque",
+      description: "A peaceful place for prayers and spiritual activities.",
+      color: "from-teal-500 to-emerald-600",
+      image: "/Mosque.jpg",
+      floors: [
+        {
+          level: "Prayer Hall",
+          rooms: ["Main Prayer Hall", "Wudu Area", "Shoe Rack"],
+        },
+      ],
+    },
+    Gate: {
+      title: "Main Gate",
+      description: "The main entrance to COMSATS University Sahiwal Campus.",
+      color: "from-red-500 to-rose-600",
+      image: "/gate.webp",
+      floors: [
+        {
+          level: "Entry Points",
+          rooms: [
+            "Security Checkpoint",
+            "Visitor Registration",
+            "Vehicle Entry",
+          ],
+        },
+      ],
+    },
   };
 
-  const activeDetails = BLOCK_DETAILS[selectedBlock];
+  // Get the base block details
+  const baseDetails = BLOCK_DETAILS[selectedBlock];
+
+  // Map selected block to block letter for Firebase lookup
+  const blockLetterMap = {
+    "A Block": "A",
+    "B Block": "B",
+    "C Block": "C",
+    "D Block": "D",
+    "W Block": "W",
+  };
+
+  // Get Firebase rooms for this block
+  const blockLetter = blockLetterMap[selectedBlock];
+  const firebaseFloors = blockLetter ? getRoomsForBlock(blockLetter) : [];
+
+  // Merge: if we have Firebase rooms, use them; otherwise use static data
+  const activeDetails = {
+    ...baseDetails,
+    floors: firebaseFloors.length > 0 ? firebaseFloors : baseDetails.floors,
+  };
 
   return (
     <div className="min-h-screen w-full bg-[#0A0F1F] text-white flex flex-col md:flex-row relative overflow-hidden">
@@ -335,33 +459,77 @@ const CampusMap = () => {
               onClick={setSelectedBlock}
             />
             {/* Gate - Bottom Left */}
-            <mesh position={[-14, 0, -6]}>
+            <mesh
+              position={[-14, 0, -6]}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedBlock("Gate");
+              }}
+            >
               <boxGeometry args={[2, 1.5, 2]} />
-              <meshStandardMaterial color="#ef4444" />
+              <meshStandardMaterial
+                color={selectedBlock === "Gate" ? "#dc2626" : "#ef4444"}
+              />
               <Html position={[0, 1.2, 0]} center distanceFactor={8}>
-                <div className="px-2 py-1 rounded-lg text-xs font-semibold bg-red-500 text-white shadow-lg whitespace-nowrap">
+                <div
+                  className={`px-2 py-1 rounded-lg text-xs font-semibold shadow-lg whitespace-nowrap ${
+                    selectedBlock === "Gate"
+                      ? "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-red-500/50"
+                      : "bg-red-500 text-white"
+                  }`}
+                >
                   🚪 Gate
                 </div>
               </Html>
             </mesh>
 
-            {/* Sports Ground - Opposite to A Block (mirrored on right side) */}
-            <mesh position={[-7, 0.1, 0]}>
+            {/* Sports Ground */}
+            <mesh
+              position={[-7, 0.1, 0]}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedBlock("Sports Ground");
+              }}
+            >
               <boxGeometry args={[6, 0.3, 5]} />
-              <meshStandardMaterial color="#16a34a" />
+              <meshStandardMaterial
+                color={
+                  selectedBlock === "Sports Ground" ? "#059669" : "#16a34a"
+                }
+              />
               <Html position={[0, 0.8, 0]} center distanceFactor={8}>
-                <div className="px-2 py-1 rounded-lg text-xs font-semibold bg-green-600 text-white shadow-lg whitespace-nowrap">
+                <div
+                  className={`px-2 py-1 rounded-lg text-xs font-semibold shadow-lg whitespace-nowrap ${
+                    selectedBlock === "Sports Ground"
+                      ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-green-500/50"
+                      : "bg-green-600 text-white"
+                  }`}
+                >
                   ⚽ Sports Ground
                 </div>
               </Html>
             </mesh>
 
-            {/* Mosque - Opposite to C Block */}
-            <mesh position={[10, 0, 2]}>
+            {/* Mosque */}
+            <mesh
+              position={[10, 0, 2]}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedBlock("Mosque");
+              }}
+            >
               <boxGeometry args={[3, 2.5, 3]} />
-              <meshStandardMaterial color="#059669" />
+              <meshStandardMaterial
+                color={selectedBlock === "Mosque" ? "#0d9488" : "#059669"}
+              />
               <Html position={[0, 1.8, 0]} center distanceFactor={8}>
-                <div className="px-2 py-1 rounded-lg text-xs font-semibold bg-emerald-600 text-white shadow-lg whitespace-nowrap">
+                <div
+                  className={`px-2 py-1 rounded-lg text-xs font-semibold shadow-lg whitespace-nowrap ${
+                    selectedBlock === "Mosque"
+                      ? "bg-gradient-to-r from-teal-500 to-emerald-600 text-white shadow-teal-500/50"
+                      : "bg-emerald-600 text-white"
+                  }`}
+                >
                   🕌 Mosque
                 </div>
               </Html>
@@ -440,6 +608,27 @@ const CampusMap = () => {
           ))}
         </div>
 
+        {/* Block Image - Before Details */}
+        {activeDetails.image && (
+          <div className="mb-4 rounded-xl overflow-hidden border border-slate-700/40 shadow-lg">
+            <div className="relative">
+              <img
+                src={activeDetails.image}
+                alt={activeDetails.title}
+                className="w-full h-32 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1F]/60 to-transparent" />
+              <div className="absolute bottom-2 left-2">
+                <span
+                  className={`px-2 py-0.5 rounded-md text-xs font-medium bg-gradient-to-r ${activeDetails.color} text-white shadow`}
+                >
+                  📸 {selectedBlock}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Selected Block Details */}
         <div className="bg-[#101726]/80 backdrop-blur-sm rounded-2xl border border-slate-700/40 p-5 mb-6 relative overflow-hidden">
           {/* Decorative Corner */}
@@ -468,7 +657,10 @@ const CampusMap = () => {
         {/* Floors */}
         <div className="space-y-3 max-h-[35vh] overflow-y-auto pr-1 custom-scroll">
           <p className="text-xs text-gray-500 uppercase tracking-wide">
-            Floor Details
+            Floor Details{" "}
+            {firebaseFloors.length > 0 && (
+              <span className="text-green-400 ml-1">• Live Data</span>
+            )}
           </p>
           {activeDetails.floors.map((floor, idx) => (
             <div
@@ -481,31 +673,48 @@ const CampusMap = () => {
                   className={`w-2 h-2 rounded-full bg-gradient-to-r ${activeDetails.color}`}
                 />
                 {floor.level}
+                {floor.roomDetails && (
+                  <span className="text-xs text-gray-500 font-normal ml-auto">
+                    {floor.roomDetails.length} rooms
+                  </span>
+                )}
               </div>
               <div className="flex flex-wrap gap-2">
-                {floor.rooms.map((room, rIdx) => (
-                  <span
-                    key={rIdx}
-                    className="text-xs bg-[#0A0F1F]/50 text-gray-300 px-2.5 py-1 rounded-lg border border-gray-700/30"
-                  >
-                    {room}
-                  </span>
-                ))}
+                {floor.roomDetails
+                  ? // Firebase rooms with amenity details
+                    floor.roomDetails.map((room, rIdx) => (
+                      <span
+                        key={rIdx}
+                        className="text-xs bg-[#0A0F1F]/50 text-gray-300 px-2.5 py-1.5 rounded-lg border border-gray-700/30 flex items-center gap-1.5"
+                        title={`Capacity: ${room.capacity || 0}${
+                          room.hasLCD ? " • LCD" : ""
+                        }${room.hasProjector ? " • Projector" : ""}${
+                          room.hasAC ? " • AC" : ""
+                        }`}
+                      >
+                        {room.name}
+                        {(room.hasLCD || room.hasProjector || room.hasAC) && (
+                          <span className="text-[10px] opacity-70">
+                            {room.hasLCD && "🖥️"}
+                            {room.hasProjector && "📽️"}
+                            {room.hasAC && "❄️"}
+                          </span>
+                        )}
+                      </span>
+                    ))
+                  : // Static rooms (simple strings)
+                    floor.rooms.map((room, rIdx) => (
+                      <span
+                        key={rIdx}
+                        className="text-xs bg-[#0A0F1F]/50 text-gray-300 px-2.5 py-1 rounded-lg border border-gray-700/30"
+                      >
+                        {room}
+                      </span>
+                    ))}
               </div>
             </div>
           ))}
         </div>
-
-        {/* Navigation Button */}
-        <button
-          className="mt-6 w-full py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 
-                     hover:from-blue-500 hover:to-purple-500 rounded-xl text-sm font-semibold 
-                     transition-all duration-300 shadow-lg shadow-blue-500/20 
-                     hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-[0.98]"
-          onClick={() => alert(`Start navigation to ${selectedBlock}`)}
-        >
-          📍 Navigate to {selectedBlock}
-        </button>
 
         {/* Tips */}
         <div className="mt-4 p-3 rounded-xl bg-[#1C2431]/30 border border-gray-700/20">

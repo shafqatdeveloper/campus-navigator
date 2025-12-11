@@ -6,8 +6,6 @@ import {
   FiUsers,
   FiHome,
   FiCalendar,
-  FiBook,
-  FiSettings,
   FiLogOut,
 } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
@@ -21,9 +19,7 @@ const AdminLayout = () => {
     { path: "/admin", label: "Dashboard", icon: FiHome, end: true },
     { path: "/admin/teachers", label: "Manage Teachers", icon: FiUsers },
     { path: "/admin/rooms", label: "Manage Rooms", icon: FiHome },
-    { path: "/admin/timetable", label: "Timetable", icon: FiCalendar },
-    { path: "/admin/classes", label: "Classes", icon: FiBook },
-    { path: "/admin/settings", label: "Settings", icon: FiSettings },
+    { path: "/admin/timetable", label: "Manage Timetable", icon: FiCalendar },
   ];
 
   const handleLogout = async () => {

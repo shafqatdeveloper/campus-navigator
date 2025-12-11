@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaArrowLeft,
   FaUser,
@@ -6,71 +6,81 @@ import {
   FaMapMarkerAlt,
   FaBook,
   FaTimes,
-  FaCheckCircle,
+  FaSpinner,
+  FaEnvelope,
+  FaPhone,
+  FaBuilding,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { db } from "../../utils/firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 
 const Teachers = () => {
   const [search, setSearch] = useState("");
   const [selectedTeacher, setSelectedTeacher] = useState(null);
+  const [teachers, setTeachers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const TEACHERS = [
-    {
-      name: "Ms. Kanwal Fatima",
-      subject: "Artificial Intelligence",
-      room: "D2",
-      department: "Computer Science",
-    },
-    {
-      name: "Mr. Imran Shahzad",
-      subject: "Mobile App Development",
-      room: "C2.5",
-      department: "Computer Science",
-    },
-    {
-      name: "Dr. Ali Raza",
-      subject: "Data Science",
-      room: "B1",
-      department: "Computer Science",
-    },
-    {
-      name: "Ms. Nadia Aslam",
-      subject: "Operating Systems",
-      room: "A2",
-      department: "Computer Science",
-    },
-  ];
+  // Realtime listener for teachers
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "teachers"),
+      (snapshot) => {
+        const teachersData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTeachers(teachersData);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Error fetching teachers:", error);
+        setLoading(false);
+      }
+    );
 
-  const filtered = TEACHERS.filter(
+    return () => unsubscribe();
+  }, []);
+
+  // Helper to format office location
+  const formatOffice = (block, floor) => {
+    if (!block && !floor) return "N/A";
+    return `Block ${block || "?"} - ${floor || "?"} Floor`;
+  };
+
+  const filtered = teachers.filter(
     (t) =>
-      t.name.toLowerCase().includes(search.toLowerCase()) ||
-      t.subject.toLowerCase().includes(search.toLowerCase())
+      t.name?.toLowerCase().includes(search.toLowerCase()) ||
+      t.subject?.toLowerCase().includes(search.toLowerCase()) ||
+      t.email?.toLowerCase().includes(search.toLowerCase())
   );
 
-  return (
-    <div className="min-h-screen bg-[#0A0F1F] text-white px-4 md:px-6 py-8 relative overflow-hidden">
-      {/* Enhanced Background Effects */}
-      <div className="absolute top-[-20%] left-[-10%] w-[450px] h-[450px] bg-blue-600/30 rounded-full blur-[140px] animate-pulse" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[450px] h-[450px] bg-purple-600/30 rounded-full blur-[140px] animate-pulse" />
-      <div className="absolute top-[50%] right-[25%] w-[200px] h-[200px] bg-pink-600/20 rounded-full blur-[100px]" />
+  const closeModal = () => setSelectedTeacher(null);
 
-      <div className="relative z-10 max-w-4xl mx-auto flex flex-col gap-6">
+  return (
+    <div className="min-h-screen bg-[#0A0F1F] text-white px-4 md:px-6 py-6 md:py-8 relative overflow-hidden">
+      {/* Enhanced Background Effects */}
+      <div className="absolute top-[-20%] left-[-10%] w-[300px] md:w-[450px] h-[300px] md:h-[450px] bg-blue-600/30 rounded-full blur-[140px] animate-pulse" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[300px] md:w-[450px] h-[300px] md:h-[450px] bg-purple-600/30 rounded-full blur-[140px] animate-pulse" />
+      <div className="absolute top-[50%] right-[25%] w-[150px] md:w-[200px] h-[150px] md:h-[200px] bg-pink-600/20 rounded-full blur-[100px]" />
+
+      <div className="relative z-10 max-w-4xl mx-auto flex flex-col gap-4 md:gap-6">
         {/* Back Button */}
         <Link
           to="/"
           className="flex items-center gap-2 text-sm text-gray-300 hover:text-white 
-                     bg-[#1C2431]/80 backdrop-blur-sm px-4 py-2.5 rounded-xl w-fit border border-gray-700/30
-                     transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/10"
+                     bg-[#1C2431]/80 backdrop-blur-sm px-3 md:px-4 py-2 md:py-2.5 rounded-xl w-fit border border-gray-700/30
+                     transition-all duration-300 hover:border-purple-500/50"
         >
           <FaArrowLeft /> Back to Home
         </Link>
 
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-purple-400 to-pink-300 animate-gradient">
+          <h1 className="text-3xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-purple-400 to-pink-300">
             Teachers Directory
           </h1>
-          <p className="text-gray-400 text-base">
+          <p className="text-gray-400 text-sm md:text-base">
             Find faculty members and their office locations 👨‍🏫
           </p>
         </div>
@@ -80,18 +90,18 @@ const Teachers = () => {
           className="flex items-center gap-3 w-full bg-[#1C2431]/90 backdrop-blur-sm border border-gray-700/50 
                         px-4 py-3 rounded-2xl shadow-lg transition-all duration-300 hover:border-purple-500/50"
         >
-          <FaSearch className="text-gray-500" />
+          <FaSearch className="text-gray-500 flex-shrink-0" />
           <input
             type="text"
-            placeholder="Search by name or subject..."
-            className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none text-base"
+            placeholder="Search by name, subject, or email..."
+            className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none text-sm md:text-base min-w-0"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
           {search && (
             <button
               onClick={() => setSearch("")}
-              className="text-gray-500 hover:text-white transition-colors"
+              className="text-gray-500 hover:text-white transition-colors flex-shrink-0"
             >
               <FaTimes />
             </button>
@@ -99,141 +109,158 @@ const Teachers = () => {
         </div>
 
         {/* Results Count */}
-        <p className="text-gray-500 text-sm">
-          Showing {filtered.length} of {TEACHERS.length} teachers
+        <p className="text-gray-500 text-xs md:text-sm">
+          Showing {filtered.length} of {teachers.length} teachers
         </p>
 
-        {/* Teachers Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {filtered.map((t, i) => (
-            <div
-              key={i}
-              onClick={() => setSelectedTeacher(t)}
-              className={`group relative cursor-pointer bg-[#101726]/80 backdrop-blur-xl 
-                         border p-5 rounded-2xl shadow-lg flex items-center gap-4 
-                         transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
-                         ${
-                           selectedTeacher?.name === t.name
-                             ? "border-purple-500/70 shadow-purple-500/20"
-                             : "border-slate-700/50 hover:border-purple-500/50"
-                         }`}
-            >
-              {/* Glow */}
-              <div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 
-                              transition bg-gradient-to-br from-purple-500 to-pink-500"
-              />
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-16 md:py-20">
+            <FaSpinner className="text-3xl md:text-4xl text-purple-400 animate-spin mb-4" />
+            <p className="text-gray-400 text-sm md:text-base">
+              Loading teachers...
+            </p>
+          </div>
+        ) : (
+          <>
+            {/* Teachers Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+              {filtered.map((t) => (
+                <div
+                  key={t.id}
+                  onClick={() => setSelectedTeacher(t)}
+                  className="group relative cursor-pointer bg-[#101726]/80 backdrop-blur-xl 
+                             border border-slate-700/50 p-4 md:p-5 rounded-2xl shadow-lg flex items-center gap-3 md:gap-4 
+                             transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
+                             hover:border-purple-500/50 active:scale-[0.98]"
+                >
+                  {/* Avatar */}
+                  <div
+                    className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 
+                                  flex items-center justify-center shadow-lg flex-shrink-0"
+                  >
+                    <FaUser className="text-white text-lg md:text-xl" />
+                  </div>
 
-              {/* Avatar */}
-              <div
-                className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 
-                              flex items-center justify-center shadow-lg transform transition-transform 
-                              duration-300 group-hover:scale-105"
-              >
-                <FaUser className="text-white text-xl" />
-              </div>
-
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <h2 className="text-lg font-bold text-white truncate">
-                  {t.name}
-                </h2>
-                <p className="text-sm text-gray-400 truncate">{t.subject}</p>
-                <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
-                  <FaMapMarkerAlt className="text-purple-400" />
-                  <span>Room {t.room}</span>
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <h2 className="text-base md:text-lg font-bold text-white truncate">
+                      {t.name}
+                    </h2>
+                    <p className="text-xs md:text-sm text-gray-400 truncate">
+                      {t.subject}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
+                      <FaBuilding className="text-purple-400 flex-shrink-0" />
+                      <span className="truncate">
+                        {formatOffice(t.officeBlock, t.officeFloor)}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
 
-              {/* Selected Indicator */}
-              {selectedTeacher?.name === t.name && (
-                <FaCheckCircle className="text-purple-400" />
+              {filtered.length === 0 && !loading && (
+                <div className="col-span-2 text-center py-10">
+                  <div className="text-4xl mb-3 opacity-50">🔍</div>
+                  <p className="text-gray-500 text-sm md:text-base">
+                    {teachers.length === 0
+                      ? "No teachers available yet."
+                      : `No teachers found matching "${search}"`}
+                  </p>
+                </div>
               )}
             </div>
-          ))}
-
-          {filtered.length === 0 && (
-            <div className="col-span-2 text-center py-10">
-              <div className="text-4xl mb-3 opacity-50">🔍</div>
-              <p className="text-gray-500">
-                No teachers found matching "{search}"
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Details Panel */}
-        {selectedTeacher && (
-          <div
-            className="bg-[#101726]/80 backdrop-blur-xl border border-purple-500/30 
-                          rounded-2xl p-6 shadow-xl relative overflow-hidden"
-          >
-            {/* Decorative Corner */}
-            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-500/10 to-transparent rounded-bl-full" />
-
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <p className="text-xs text-purple-300 uppercase tracking-widest mb-1">
-                  Selected Teacher
-                </p>
-                <h2 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-purple-300">
-                  {selectedTeacher.name}
-                </h2>
-              </div>
-              <button
-                onClick={() => setSelectedTeacher(null)}
-                className="text-gray-500 hover:text-white transition-colors"
-              >
-                <FaTimes />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div className="bg-[#1C2431]/50 rounded-xl p-3">
-                <p className="text-gray-500 text-xs mb-1">Subject</p>
-                <p className="text-white font-medium flex items-center gap-2">
-                  <FaBook className="text-blue-400" />
-                  {selectedTeacher.subject}
-                </p>
-              </div>
-              <div className="bg-[#1C2431]/50 rounded-xl p-3">
-                <p className="text-gray-500 text-xs mb-1">Room</p>
-                <p className="text-white font-medium flex items-center gap-2">
-                  <FaMapMarkerAlt className="text-pink-400" />
-                  {selectedTeacher.room}
-                </p>
-              </div>
-            </div>
-
-            <button
-              className="mt-4 w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 
-                               hover:from-purple-500 hover:to-pink-500 rounded-xl text-sm font-semibold 
-                               transition-all duration-300 shadow-lg shadow-purple-500/20 
-                               hover:shadow-purple-500/40 hover:scale-[1.02] active:scale-[0.98]"
-            >
-              📍 Navigate to {selectedTeacher.room}
-            </button>
-          </div>
+          </>
         )}
       </div>
 
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes gradient {
-          0%,
-          100% {
-            background-size: 200% 200%;
-            background-position: left center;
-          }
-          50% {
-            background-size: 200% 200%;
-            background-position: right center;
-          }
-        }
-        .animate-gradient {
-          animation: gradient 3s ease infinite;
-        }
-      `}</style>
+      {/* Modal Overlay */}
+      {selectedTeacher && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-[#101726] border border-purple-500/30 rounded-2xl p-5 md:p-6 shadow-2xl 
+                       w-full max-w-md max-h-[90vh] overflow-y-auto relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+            >
+              <FaTimes size={18} />
+            </button>
+
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-5">
+              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg">
+                <FaUser className="text-white text-2xl" />
+              </div>
+              <div>
+                <p className="text-xs text-purple-300 uppercase tracking-widest">
+                  Teacher
+                </p>
+                <h2 className="text-xl md:text-2xl font-bold text-white">
+                  {selectedTeacher.name}
+                </h2>
+              </div>
+            </div>
+
+            {/* Bio */}
+            {selectedTeacher.bio && (
+              <p className="text-gray-400 text-sm mb-4 italic border-l-2 border-purple-500/50 pl-3">
+                "{selectedTeacher.bio}"
+              </p>
+            )}
+
+            {/* Details Grid */}
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="bg-[#1C2431]/50 rounded-xl p-3">
+                <p className="text-gray-500 text-xs mb-1">Subject</p>
+                <p className="text-white font-medium flex items-center gap-2">
+                  <FaBook className="text-blue-400 flex-shrink-0" />
+                  <span className="truncate">
+                    {selectedTeacher.subject || "N/A"}
+                  </span>
+                </p>
+              </div>
+              <div className="bg-[#1C2431]/50 rounded-xl p-3">
+                <p className="text-gray-500 text-xs mb-1">Office</p>
+                <p className="text-white font-medium flex items-center gap-2">
+                  <FaMapMarkerAlt className="text-pink-400 flex-shrink-0" />
+                  <span className="truncate">
+                    {formatOffice(
+                      selectedTeacher.officeBlock,
+                      selectedTeacher.officeFloor
+                    )}
+                  </span>
+                </p>
+              </div>
+              <div className="bg-[#1C2431]/50 rounded-xl p-3">
+                <p className="text-gray-500 text-xs mb-1">Email</p>
+                <p className="text-white font-medium flex items-center gap-2">
+                  <FaEnvelope className="text-green-400 flex-shrink-0" />
+                  <span className="truncate text-xs">
+                    {selectedTeacher.email || "N/A"}
+                  </span>
+                </p>
+              </div>
+              <div className="bg-[#1C2431]/50 rounded-xl p-3">
+                <p className="text-gray-500 text-xs mb-1">Phone</p>
+                <p className="text-white font-medium flex items-center gap-2">
+                  <FaPhone className="text-yellow-400 flex-shrink-0" />
+                  <span className="truncate">
+                    {selectedTeacher.phone || "N/A"}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
