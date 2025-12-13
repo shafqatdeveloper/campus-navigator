@@ -55,26 +55,21 @@ const NavigateCampus = () => {
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
   const [robotMsg, setRobotMsg] = useState("");
-  const [robotStatus, setRobotStatus] = useState(null); // 'success' or 'error'
+  const [robotStatus, setRobotStatus] = useState(null);
   const [toast, setToast] = useState(null);
 
   const BACKEND_URL =
     import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const SUGGESTIONS = [
-    { name: "D4", type: "Classroom" },
+    { name: "C1", type: "Classroom" },
+    { name: "C2", type: "Classroom" },
+    { name: "C3", type: "Classroom" },
+    { name: "C4", type: "Classroom" },
+    { name: "C5", type: "Classroom" },
     { name: "Faculty Offices", type: "Office" },
-    { name: "CS Lab", type: "Lab" },
-    { name: "Library Entrance", type: "Building" },
-    { name: "Block A", type: "Building" },
-    { name: "Block B", type: "Building" },
-    { name: "Block C", type: "Building" },
-    { name: "Block D", type: "Building" },
-    { name: "Exam Branch", type: "Office" },
-    { name: "Accounts Office", type: "Office" },
-    { name: "C2.5 Classroom", type: "Classroom" },
-    { name: "Director Office", type: "Office" },
-    { name: "Digital Library", type: "Building" },
+    { name: "C Block Entrance", type: "Building" },
+    { name: "HOD Office", type: "Office" },
   ];
 
   const filtered = SUGGESTIONS.filter((s) =>
@@ -100,7 +95,7 @@ const NavigateCampus = () => {
     showToast("sending", "Sending command to robot...");
 
     try {
-      const res = await fetch(`${BACKEND_URL}/robot/navigate`, {
+      const res = await fetch(`${BACKEND_URL}/navigate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ destination: location }),
